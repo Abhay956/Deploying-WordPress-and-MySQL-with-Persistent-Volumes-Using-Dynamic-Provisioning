@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    
+    environment {
+        REPO_URL = 'https://github.com/Abhay956/Deploying-WordPress-and-MySQL-with-Persistent-Volumes-Using-Dynamic-Provisioning.git'
+    }
+    
+    stages {
+        stage('Git Clone') {
+            steps {
+                git branch: 'main', url: REPO_URL
+            }
+        }
+        
+        stage('Deploy to OpenShift') {
+            steps {
+                script {
+                    sh "oc apply -f ."
+                }
+            }
+        }
+    }
+}
